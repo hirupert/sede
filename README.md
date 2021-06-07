@@ -1,5 +1,7 @@
 # SEDE
-Text-to-SQL in the wild: A naturally-occurring dataset based on StackExchange Data
+![sede ci](https://github.com/hirupert/sede/actions/workflows/ci.yml/badge.svg)
+
+Code and data from the paper: "Text-to-SQL in the Wild: A Naturally-Occurring Dataset Based on Stack Exchange Data".
 
 ### Setup Instructions
 
