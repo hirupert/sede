@@ -1,0 +1,30 @@
+[MASTER]
+ignore=test
+
+[MESSAGES CONTROL]
+disable=
+    missing-docstring,
+    too-few-public-methods,
+    eval-used,
+    duplicate-code,
+    no-else-return,
+    too-many-statements,
+    too-many-locals,
+    import-error,
+    no-name-in-module,
+    bad-continuation
+
+[FORMAT]
+max-line-length=120
+
+[BASIC]
+good-names=s3,i,j,e,T,trace,logger, function-rgx='[a-z_][a-z0-9_]{2,60}$$', function-rgx='[a-z_][a-z0-9_]{2,60}$$'
+
+[SIMILARITIES]
+ignore-imports=yes
+
+[TYPECHECK]
+generated-members=Table, batch_write_item
+
+[DESIGN]
+max-args=9

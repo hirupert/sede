@@ -1,0 +1,16 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      docker pull gcr.io/${_PROJECT_ID}/${_PACKAGE_NAME}:latest || exit 0
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build',
+            '-f', './Dockerfile',
+            '-t', 'gcr.io/${_PROJECT_ID}/${_PACKAGE_NAME}:$REVISION_ID',
+            '--cache-from', 'gcr.io/${_PROJECT_ID}/${_PACKAGE_NAME}:latest',
+            '--build-arg', 'PYPI_DEPLOY_TOKEN=${_PYPI_DEPLOY_TOKEN}',
+            '.' ]
+images:
+- 'gcr.io/${_PROJECT_ID}/${_PACKAGE_NAME}:$REVISION_ID'
