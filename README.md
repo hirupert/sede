@@ -61,7 +61,7 @@ Now you can enter into Jupyter with the command `jupyter notebook` and when crea
 ### Folders Navigation
 * `src` - source code
 * `configs` - contains configuration files for running experiments
-* `data/sede` - train/val/test sets of SEDE. Note - files with the `_original` suffix are the ones that we kept original as coming from SEDE without our fixes. See our paper for more details.
+* `data/sede` - train/val/test sets of SEDE. **Note** - files with the `_original` suffix are the ones that we kept original as coming from SEDE without our fixes. See our paper for more details.
 * `notebooks` - some helper Jupyter notebooks.
 * `stackexchange_schema` - holds file that respresents the SEDE schema.
 
@@ -84,12 +84,7 @@ curl --location --request POST 'http://localhost:8079/sqltojson' \
 }'
 ```
 
-### Downloading Spider dataset
-
-In order to run our model + Partial Match F1 metric on Spider dataset,
-one must download Spider dataset from here: https://yale-lily.github.io/spider and save it under `data/spider` folder inside the root project directory.
-
-### Training
+### Training T5 model
 
 Training SEDE:
 ```
@@ -97,23 +92,42 @@ python main_allennlp.py train configs/t5_text2sql_sede.jsonnet -s experiments/na
 ```
 
 Training Spider:
+
+In order to run our model + Partial Components Match F1 metric on Spider dataset,
+one must download Spider dataset from here: https://yale-lily.github.io/spider and save it under `data/spider` folder inside the root project directory.
+After that, one can run the following command in order to train our model on Spider dataset:
+
 ```
 python main_allennlp.py train configs/t5_text2sql_spider.jsonnet -s experiments/name_of_experiment --include-package src
 ```
 
-### Evaluation
+### Evaluation (SEDE)
 
-Run evaluation on val/test set with:
+Run evaluation on SEDE validation set with:
 ```
-python main_allennlp.py evaluate experiments/name_of_experiment data/test.jsonl --output-file experiments/name_of_experiment/predictions.sql --cuda-device 0 --batch-size 10 --include-package src
+python main_allennlp.py evaluate experiments/name_of_experiment data/sede/val.jsonl --output-file experiments/name_of_experiment/val_predictions.sql --cuda-device 0 --batch-size 10 --include-package src
 ```
 
-### Inference
+Run evaluation on SEDE test set with:
+```
+python main_allennlp.py evaluate experiments/name_of_experiment data/sede/test.jsonl --output-file experiments/name_of_experiment/test_predictions.sql --cuda-device 0 --batch-size 10 --include-package src
+```
 
-Predict with:
+Note - In order to evaluate a trained model on Spider, one needs to replace the experiment name and the data path to: `data/spider/dev.json`.
+
+### Inference (SEDE)
+
+Predict SQL queries on SEDE validation set with:
 ```
-python main_allennlp.py predict experiments/name_of_experiment data/val.jsonl --output-file experiments/name_of_experiment/predictions.sql --use-dataset-reader --predictor seq2seq2 --cuda-device 0 --batch-size 10 --include-package src
+python main_allennlp.py predict experiments/name_of_experiment data/sede/val.jsonl --output-file experiments/name_of_experiment/val_predictions.sql --use-dataset-reader --predictor seq2seq2 --cuda-device 0 --batch-size 10 --include-package src
 ```
+
+Predict SQL queries on SEDE test set with:
+```
+python main_allennlp.py predict experiments/name_of_experiment data/sede/test.jsonl --output-file experiments/name_of_experiment/val_predictions.sql --use-dataset-reader --predictor seq2seq2 --cuda-device 0 --batch-size 10 --include-package src
+```
+
+Note - In order to run inference with a trained model on Spider (validation set), one needs to replace the experiment name and the data path to: `data/spider/dev.json`.
 
 ## Acknowledgements
 
