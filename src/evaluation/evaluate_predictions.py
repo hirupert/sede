@@ -11,6 +11,7 @@ from src.metrics.partial_match_eval.evaluate import evaluate
 from src.spider_evaluator import evaluate_single
 
 
+# pylint: disable=too-many-branches
 def calculate_metrics(predictions: str, rat_sql: bool, rat_sql_gap: bool, spider_dev_gold: str):
     predicted_lines: List[str] = []
     gold_lines: List[str] = []
@@ -47,7 +48,9 @@ def calculate_metrics(predictions: str, rat_sql: bool, rat_sql_gap: bool, spider
 
     # parse queries with JSQL parser
     print("Parsing queries with JSQL parser without values")
-    translated_predicted_no_values = jsql_parser.translate_batch(predicted_lines, anonymize_values=True, parse_on_clause=False)
+    translated_predicted_no_values = jsql_parser.translate_batch(
+        predicted_lines, anonymize_values=True, parse_on_clause=False
+    )
     translated_gold_no_values = jsql_parser.translate_batch(gold_lines, anonymize_values=True, parse_on_clause=False)
 
     # calculate percentage of valid SQL queries
