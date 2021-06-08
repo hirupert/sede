@@ -7,7 +7,7 @@ from src.ext_services.jsql_parser import JSQLParser
 class TestEvaluate(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.parser = JSQLParser()
+        self.parser = JSQLParser.create()
 
     def test_evaluate_simple(self):
         parsed_gold = self.parser.translate("select first_name, last_name from customers")

@@ -1,16 +1,11 @@
 # pylint: disable=broad-except
 
-import http
 from typing import Dict, Optional, List, Tuple
 
-import requests
-
+from src.ext_services.abstract_jsql_service import AbstractJSQLService
+from src.ext_services.rest_jsql_service import RestJSQLService
 from src.metrics.partial_match_eval.jsql_reader import JSQLReader
 from src.preprocessing.sql_utils import preprocess_for_jsql
-
-
-class JSQLParserServiceException(Exception):
-    pass
 
 
 def _augment_items(items: List[Tuple[int, str]], aliases_to_tables_dict: Dict[str, str]) -> List[Tuple[int, str]]:
@@ -29,10 +24,15 @@ def _augment_items(items: List[Tuple[int, str]], aliases_to_tables_dict: Dict[st
 
 
 class JSQLParser:
-    def __init__(self):
-        service_url = "http://localhost:8079/"
-        self._entry_point = service_url + "sqltojson"
+    def __init__(self, jsql_service: AbstractJSQLService):
         self._jsql_reader = JSQLReader()
+        self._jsql_service = jsql_service
+
+    @classmethod
+    def create(cls, jsql_service: AbstractJSQLService = None):
+        if not jsql_service:
+            jsql_service = RestJSQLService()
+        return cls(jsql_service)
 
     def _sql_to_json(self, sql: str) -> Optional[Dict]:
         # replace apostrophes with quotes, since otherwise JSQLParser might return errors. Note that this simple replace
@@ -41,14 +41,7 @@ class JSQLParser:
         sql_to_parse = sql.replace("'", '"')
 
         try:
-            response = requests.post(self._entry_point, json={"sql": sql_to_parse}, timeout=3)
-            if response.status_code != http.HTTPStatus.OK:
-                raise JSQLParserServiceException("")
-            output = response.json()
-            if "timestamp" not in output.keys():
-                return output
-            else:
-                return None
+            return self._jsql_service.call_jsql(sql_to_parse)
         except Exception:
             return None
 
@@ -63,7 +56,7 @@ class JSQLParser:
                     return None
             parsed_sql = self._sql_to_json(sql)
             return parsed_sql
-        except JSQLParserServiceException:
+        except Exception:
             return None
 
     # pylint: disable=too-many-branches

@@ -42,7 +42,7 @@ def calculate_metrics(predictions: str, rat_sql: bool, rat_sql_gap: bool, spider
 
     # parse queries with JSQL parser
     print("Parsing queries with JSQL parser")
-    jsql_parser = JSQLParser()
+    jsql_parser = JSQLParser.create()
     translated_predicted = jsql_parser.translate_batch(predicted_lines, parse_on_clause=False)
     translated_gold = jsql_parser.translate_batch(gold_lines, parse_on_clause=False)
 

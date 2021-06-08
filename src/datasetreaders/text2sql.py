@@ -112,7 +112,7 @@ class Seq2SeqDatasetReader(DatasetReader):
 
         self._random = Random(random_seed)
 
-        self._sql_parser = JSQLParser()
+        self._sql_parser = JSQLParser.create()
 
     @overrides
     def _read(self, file_path: str) -> Iterable[Instance]:

@@ -17,6 +17,7 @@ def _calculate_nesting_level(train_dev_test):
 
 
 class TestSqlUtils(unittest.TestCase):
+    @unittest.skip
     def test_calculate_nesting_level_spider(self):
         with open("data/spider/train_spider.json") as in_fp:
             train_spider = json.load(in_fp)
@@ -25,6 +26,7 @@ class TestSqlUtils(unittest.TestCase):
         train_dev_spider = train_spider + dev_spider
         mean = _calculate_nesting_level(train_dev_spider)
         print(f"Spider Avg. SQL depth = {mean}")
+        self.assertEqual(round(mean, 2), 1.15)
 
     def test_calculate_nesting_level_sede(self):
         train_sede = [line for line in srsly.read_jsonl("data/sede/train.jsonl")]
@@ -33,6 +35,7 @@ class TestSqlUtils(unittest.TestCase):
         train_dev_test = train_sede + dev_sede + test_sede
         mean = _calculate_nesting_level(train_dev_test)
         print(f"SEDE Avg. SQL depth = {mean}")
+        self.assertEqual(round(mean, 2), 1.29)
 
     def test_preprocess_for_jsql(self):
         sql = """

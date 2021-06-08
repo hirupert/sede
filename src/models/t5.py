@@ -58,7 +58,7 @@ class T5(Model):
         self._measure_partial_match = measure_partial_match
         self._pcm_f1 = Average()
         self._pcm_em = Average()
-        self._jsql_parser = JSQLParser()
+        self._jsql_parser = JSQLParser.create()
 
         self._metric: AbstractScorer = BleuScorer()
 
