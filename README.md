@@ -7,7 +7,7 @@ It's based on a real usage of users from the Stack Exchange Data Explorer platfo
 
 Paper (NLP4Prog workshop at ACL2021): [Text-to-SQL in the Wild: A Naturally-Occurring Dataset Based on Stack Exchange Data](https://arxiv.org/abs/2106.05006).
 
-![sede sql](./sede_sql.png)
+![sede sql](./sede_sql.jpg)
 
 ---
 
