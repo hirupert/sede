@@ -1,7 +1,15 @@
 # SEDE
+
 ![sede ci](https://github.com/hirupert/sede/actions/workflows/ci.yml/badge.svg)
 
-Code and data from the paper: [Text-to-SQL in the Wild: A Naturally-Occurring Dataset Based on Stack Exchange Data](https://arxiv.org/abs/2106.05006).
+**SEDE** (Stack Exchange Data Explorer) is new dataset for Text-to-SQL tasks with more than 12,000 SQL queries and their natural language description.
+It's based on a real usage of users from the Stack Exchange Data Explorer platform, which brings complexities and challenges never seen before in any other semantic parsing dataset like including complex nesting, dates manipulation, numeric and text manipulation, parameters, and most importantly: under-specification and hidden-assumptions.
+
+Paper (NLP4Prog workshop at ACL2021): [Text-to-SQL in the Wild: A Naturally-Occurring Dataset Based on Stack Exchange Data](https://arxiv.org/abs/2106.05006).
+
+![sede sql](https://github.com/hirupert/sede/blob/master/sede_sql.png?raw=true)
+
+---
 
 ### Setup Instructions
 
